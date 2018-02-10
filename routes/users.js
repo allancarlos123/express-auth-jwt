@@ -7,11 +7,8 @@ var users = require('../controllers/UserController');
 // Bring in defined Passport Strategy
 require('../config/passport')(passport);  
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.json({users: [{name: 'Timmy'}]});
-});
-
+// GET users listing.
+router.get('/', users.findAll);
 
 // Register new users
 router.post('/register', users.register);

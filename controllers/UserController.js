@@ -5,6 +5,16 @@ var config = require('../config/dbConfig');
 var jwt = require('jsonwebtoken');  
 
 
+exports.findAll = function(req, res) {
+    User.find(function(err, users) {
+        if (err) {
+            res.status(500).send({ message: "Some error ocuured while creating the User." })
+        } else {
+            res.send(users);
+        }
+    });
+}
+
 exports.register = function (req, res) {
     if (!req.body.email || !req.body.password) {
         res.json({ success: false, message: 'Please enter email and password.' });
