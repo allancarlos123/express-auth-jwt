@@ -15,6 +15,48 @@ exports.findAll = function(req, res) {
     });
 }
 
+// Find a single user with a userId
+exports.findOne = function(req, res) {
+    User.findById(req.params.userId, function(err, user) {
+        if (err) {
+            res.status(500).send({ message: "Could not retrieve user with id " + req.params.userId });
+        } else {
+            res.send(user);
+        }
+    });
+}
+
+exports.delete = function(req, res) {
+    User.remove({ _id: req.params.userId }, function(err, user) {
+        if (err) {
+            res.status(500).send({ message: "Could not delete user with id " + req.params.userId });
+        } else {
+            res.send({ message: "User deleted successfully!" });
+        }
+    });
+}
+
+exports.update = function(req, res) {
+    User.findById(req.params.userId, function(err, user) {
+        if (err) {
+            res.status(500).send({ message: "Could not find a user with id " + req.params.userId });
+        }
+
+        user.email = req.body.email;
+        user.role = req.body.role;
+        user.password = req.body.password;
+
+        user.save(function (err, user) {
+            if (err) {
+                res.json({err: err});
+                res.status(500).send({ message: "Could not update user with id " + req.params.userId });
+            } else {
+                res.send(user);
+            }
+        })
+    });
+};
+
 exports.register = function (req, res) {
     if (!req.body.email || !req.body.password) {
         res.json({ success: false, message: 'Please enter email and password.' });
