@@ -6,7 +6,6 @@ var morgan = require('morgan');
 var passport = require('passport');
 var jwt = require('jsonwebtoken');  
 var users = require('./routes/users');
-var jobs = require('./routes/jobs');
 
 var app = express();
 var db = require('./db');
@@ -18,6 +17,5 @@ app.use(morgan('dev'));
 
 
 app.use('/api/v1/users', users);
-app.use('/api/v1/jobs', jobs);
 
 module.exports = app;
